@@ -14,14 +14,6 @@
         android:indeterminateBehavior="repeat"
         />
 
-    <!--<com.hss01248.roundprogressbar.RoundProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="30dp"
-        app:cpb_strokeWidth = "3dp"
-        android:layout_height="30dp"
-        app:cpb_endColor="@color/base"
-        android:layout_centerInParent="true"/>-->
-
     <TextView
         android:text="加载中..."
         android:layout_marginTop="20dp"

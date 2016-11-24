@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 /**
  * Created by zhy on 15/8/26.
  */
-public class PageStateLayout extends FrameLayout
+public class PageLayout extends FrameLayout
 {
     private View mLoadingView;
     private View mRetryView;
@@ -19,22 +19,22 @@ public class PageStateLayout extends FrameLayout
     private View mEmptyView;
     private LayoutInflater mInflater;
 
-    private static final String TAG = PageStateLayout.class.getSimpleName();
+    private static final String TAG = PageLayout.class.getSimpleName();
 
 
-    public PageStateLayout(Context context, AttributeSet attrs, int defStyleAttr)
+    public PageLayout(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
         mInflater = LayoutInflater.from(context);
     }
 
 
-    public PageStateLayout(Context context, AttributeSet attrs)
+    public PageLayout(Context context, AttributeSet attrs)
     {
         this(context, attrs, -1);
     }
 
-    public PageStateLayout(Context context)
+    public PageLayout(Context context)
     {
         this(context, null);
     }

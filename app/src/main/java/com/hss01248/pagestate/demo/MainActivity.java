@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.hss01248.pagestate.PageStateManager;
+import com.hss01248.pagestate.PageManager;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    PageStateManager pageStateManager;
+    PageManager pageStateManager;
     Handler handler = new Handler();
 
     @Override
@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PageStateManager.initInApp(getApplicationContext());
+        PageManager.initInApp(getApplicationContext());
 
-        pageStateManager = PageStateManager.init(this, new Runnable() {
+        pageStateManager = PageManager.init(this, "空空快快快快快快快快快快快快",new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(MainActivity.this,"点击重试了...",Toast.LENGTH_LONG).show();
@@ -47,35 +47,22 @@ public class MainActivity extends AppCompatActivity {
     private void doNet() {
         pageStateManager.showLoading();
 
-        new Thread(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(2000);
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            int  state = new Random().nextInt(3);
-                            switch (state){
-                                case 0:
-                                    pageStateManager.showRetry();
-                                    break;
-                                case 1:
-                                    pageStateManager.showEmpty();
-                                    break;
-                                case 2:
-                                    pageStateManager.showContent();
-                            }
-
-                        }
-                    });
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                int  state = new Random().nextInt(3);
+                switch (state){
+                    case 0:
+                        pageStateManager.showError("哈哈哈哈哈错误了");
+                        break;
+                    case 1:
+                        pageStateManager.showEmpty();
+                        break;
+                    case 2:
+                        pageStateManager.showContent();
                 }
 
             }
-        }).run();
+        },2000);
     }
 }

@@ -16,7 +16,7 @@
 
         >
         <gradient
-            android:endColor="#333333"
+            android:endColor="#9a9a9a"
             android:type="sweep"
 
             android:startColor="#ffffff" >

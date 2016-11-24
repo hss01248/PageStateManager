@@ -11,7 +11,7 @@
         android:layout_marginTop="40dp"
         android:src="@drawable/ic_empty_page" />
     <TextView
-        android:id="@+id/tv_word"
+        android:id="@+id/tv_msg_empty"
         android:layout_below="@id/empty_icon"
         android:layout_marginTop="15dp"
         android:textSize="15sp"

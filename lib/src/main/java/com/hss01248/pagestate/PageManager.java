@@ -7,11 +7,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -19,23 +17,37 @@ import android.widget.TextView;
 /**
  * Created by zhy on 15/8/27.
  */
-public class PageStateManager
+public class PageManager
 {
     public static final int NO_LAYOUT_ID = 0;
     public static int BASE_LOADING_LAYOUT_ID = R.layout.pager_loading;
     public static int BASE_RETRY_LAYOUT_ID = R.layout.pager_error;
     public static int BASE_EMPTY_LAYOUT_ID = R.layout.pager_empty;
 
-    public PageStateLayout mLoadingAndRetryLayout;
+
+
+    public PageLayout mLoadingAndRetryLayout;
 
     private static Context appContext;
+
+
+    private TextView tvError;
 
     public static void initInApp(Context appContext){
         initInApp(appContext,0,0,0);
     }
+
+
+    /**
+     * 如果需要后续调用自定义空白msg,错误msg字符串的api,则页面中显示该字符串的textview的id必须为tv_msg_empty,tv_msg_error
+     * @param appContext
+     * @param layoutIdOfEmpty
+     * @param layoutIdOfLoading
+     * @param layoutIdOfError
+     */
     public static void initInApp(Context appContext,int layoutIdOfEmpty,int layoutIdOfLoading,int layoutIdOfError){
 
-            PageStateManager.appContext = appContext;
+            PageManager.appContext = appContext;
         if(layoutIdOfEmpty > 0){
             BASE_EMPTY_LAYOUT_ID = layoutIdOfEmpty;
         }
@@ -51,23 +63,23 @@ public class PageStateManager
 
     }
 
-    public static PageStateManager init(final Object container, final Runnable retryAction) {
-        return generate(container, new PageStateListener() {
+
+    /**
+     *
+     * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
+     * @param retryAction 点击重试的动作,注意,只需要关注有网络的情况,无网络状态时已经封装好:弹出对话框询问用户是否去设置网络
+     * @return 当前页面的状态管理器
+     */
+    public static PageManager init(final Object container, final Runnable retryAction) {
+
+        return generate(container, new PageListener() {
             @Override
             public void setRetryEvent(View retryView) {
                 retryView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (isNetWorkAvailable(appContext)) {
-                            if(container instanceof  Activity){
-                                Activity activity = (Activity) container;
-                                showNoNetWorkDlg(activity);
-                            }else if (container instanceof  Fragment){
-                                FragmentActivity activity =  ((Fragment) container).getActivity();
-                                showNoNetWorkDlg(activity);
-                            }else if(container instanceof View){
-                                showNoNetWorkDlg(((View) container).getContext());
-                            }
+                        if (!isNetWorkAvailable(appContext)) {
+                            showNoNetWorkDlg(container);
                         } else {
                             retryAction.run();
                         }
@@ -77,24 +89,22 @@ public class PageStateManager
         });
     }
 
-    public static PageStateManager init(final Object container, final CharSequence emptyMsg, final Runnable retryAction){
-        return generate(container, new PageStateListener() {
+    /**
+     *
+     * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
+     * @param emptyMsg  自定义空白String
+     * @param retryAction
+     * @return
+     */
+    public static PageManager init(final Object container, final CharSequence emptyMsg, final Runnable retryAction){
+        return generate(container, new PageListener() {
             @Override
             public void setRetryEvent(View retryView) {
                 retryView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (isNetWorkAvailable(appContext)) {
-                            if(container instanceof  Activity){
-                                Activity activity = (Activity) container;
-                                showNoNetWorkDlg(activity);
-                            }else if (container instanceof  Fragment){
-                                FragmentActivity activity =  ((Fragment) container).getActivity();
-                                showNoNetWorkDlg(activity);
-                            }else if(container instanceof View){
-                                showNoNetWorkDlg(((View) container).getContext());
-                            }
-
+                        if (!isNetWorkAvailable(appContext)) {
+                            showNoNetWorkDlg(container);
                         } else {
                             retryAction.run();
                         }
@@ -117,7 +127,7 @@ public class PageStateManager
 
 
     //todo 每次显示实时的错误信息
-    public void showRetry()
+    public void showError()
     {
         mLoadingAndRetryLayout.showRetry();
     }
@@ -130,6 +140,19 @@ public class PageStateManager
     public void showEmpty()
     {
         mLoadingAndRetryLayout.showEmpty();
+    }
+
+    public void showError(CharSequence errorMsg){
+
+        if(tvError != null){
+            tvError.setText(errorMsg);
+            mLoadingAndRetryLayout.showRetry();
+            return;
+        }
+        ViewGroup view = (ViewGroup) mLoadingAndRetryLayout.getRetryView();
+        tvError = (TextView) view.findViewById(R.id.tv_msg_error);
+        tvError.setText(errorMsg);
+        mLoadingAndRetryLayout.showRetry();
     }
 
 
@@ -157,10 +180,23 @@ public class PageStateManager
 
     /**
      * 当判断当前手机没有网络时选择是否打开网络设置
-     * @param context
+
      */
-    private static AlertDialog showNoNetWorkDlg(final Context context) {
+    private static AlertDialog showNoNetWorkDlg(final Object container) {
         AlertDialog dialog = null;
+         Context context = null;
+
+
+        if(container instanceof  Activity){
+           context = (Activity) container;
+
+        }else if (container instanceof  Fragment){
+            context =  ((Fragment) container).getActivity();
+
+        }else if(container instanceof View){
+            context = ((View) container).getContext();
+        }
+
         try {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -201,23 +237,14 @@ public class PageStateManager
     public static View generateCustomEmptyView(CharSequence word){
         ViewGroup view = (ViewGroup) View.inflate(appContext, BASE_EMPTY_LAYOUT_ID,null);
 
-      int count =   view.getChildCount();
-
-        for(int i =0; i<count; i++){
-            View child = view.getChildAt(i);
-            if(child instanceof TextView && !(child instanceof Button)){
-                TextView textView  = (TextView) child;
-                textView.setText(word);
-                break;
-
-            }
-        }
+        TextView textView = (TextView) view.findViewById(R.id.tv_msg_empty);
+        textView.setText(word);
         return view;
     }
 
 
 
-    public PageStateListener DEFAULT_LISTENER = new PageStateListener()
+    public PageListener DEFAULT_LISTENER = new PageListener()
     {
         @Override
         public void setRetryEvent(View retryView)
@@ -227,7 +254,7 @@ public class PageStateManager
     };
 
 
-    public PageStateManager(Object activityOrFragmentOrView, PageStateListener listener)
+    public PageManager(Object activityOrFragmentOrView, PageListener listener)
     {
         if (listener == null) listener = DEFAULT_LISTENER;
 
@@ -273,7 +300,7 @@ public class PageStateManager
         }
         contentParent.removeView(oldContent);
         //setup content layout
-        PageStateLayout loadingAndRetryLayout = new PageStateLayout(context);
+        PageLayout loadingAndRetryLayout = new PageLayout(context);
 
         ViewGroup.LayoutParams lp = oldContent.getLayoutParams();
         contentParent.addView(loadingAndRetryLayout, index, lp);
@@ -289,7 +316,7 @@ public class PageStateManager
         mLoadingAndRetryLayout = loadingAndRetryLayout;
     }
 
-    private void setupEmptyLayout(PageStateListener listener, PageStateLayout loadingAndRetryLayout)
+    private void setupEmptyLayout(PageListener listener, PageLayout loadingAndRetryLayout)
     {
         if (listener.isSetEmptyLayout())
         {
@@ -308,7 +335,7 @@ public class PageStateManager
         }
     }
 
-    private void setupLoadingLayout(PageStateListener listener, PageStateLayout loadingAndRetryLayout)
+    private void setupLoadingLayout(PageListener listener, PageLayout loadingAndRetryLayout)
     {
         if (listener.isSetLoadingLayout())
         {
@@ -327,7 +354,7 @@ public class PageStateManager
         }
     }
 
-    private void setupRetryLayout(PageStateListener listener, PageStateLayout loadingAndRetryLayout)
+    private void setupRetryLayout(PageListener listener, PageLayout loadingAndRetryLayout)
     {
         if (listener.isSetRetryLayout())
         {
@@ -346,9 +373,9 @@ public class PageStateManager
         }
     }
 
-    public static PageStateManager generate(Object activityOrFragment, PageStateListener listener)
+    public static PageManager generate(Object activityOrFragment, PageListener listener)
     {
-        return new PageStateManager(activityOrFragment, listener);
+        return new PageManager(activityOrFragment, listener);
     }
 
 
