@@ -1,6 +1,8 @@
 # PageManager
 页面状态管理
 
+[![](https://jitpack.io/v/hss01248/PageStateManager.svg)](https://jitpack.io/#hss01248/PageStateManager)
+
 在张鸿洋的[LoadingAndRetryManager](https://github.com/hongyangAndroid/LoadingAndRetryManager)的基础上改写,优化api,封装常用的逻辑.
 
 # API
@@ -84,7 +86,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ```
     dependencies {
-            compile 'com.github.hss01248:PageStateManager:1.0.0'
+            compile 'com.github.hss01248:PageStateManager:1.0.1'
     }
 ```
 
