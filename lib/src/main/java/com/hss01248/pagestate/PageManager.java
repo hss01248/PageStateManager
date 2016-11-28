@@ -68,11 +68,11 @@ public class PageManager
      *
      * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
      * @param retryAction 点击重试的动作,注意,只需要关注有网络的情况,无网络状态时已经封装好:弹出对话框询问用户是否去设置网络
+     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
      * @return 当前页面的状态管理器
      */
-    public static PageManager init(final Object container, final Runnable retryAction) {
-
-        return generate(container, new PageListener() {
+    public static PageManager init(final Object container, boolean isShowLoadingOrContent ,final Runnable retryAction) {
+        PageManager manager = generate(container, new PageListener() {
             @Override
             public void setRetryEvent(View retryView) {
                 retryView.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +87,14 @@ public class PageManager
                 });
             }
         });
+        if(isShowLoadingOrContent){
+            manager.showLoading();
+        }else {
+            manager.showContent();
+        }
+
+
+        return manager;
     }
 
     /**
@@ -94,10 +102,11 @@ public class PageManager
      * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
      * @param emptyMsg  自定义空白String
      * @param retryAction
+     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
      * @return
      */
-    public static PageManager init(final Object container, final CharSequence emptyMsg, final Runnable retryAction){
-        return generate(container, new PageListener() {
+    public static PageManager init(final Object container, final CharSequence emptyMsg, boolean isShowLoadingOrContent ,final Runnable retryAction){
+        PageManager manager =  generate(container, new PageListener() {
             @Override
             public void setRetryEvent(View retryView) {
                 retryView.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +126,15 @@ public class PageManager
                 return generateCustomEmptyView(emptyMsg);
             }
         });
+
+        if(isShowLoadingOrContent){
+            manager.showLoading();
+        }else {
+            manager.showContent();
+        }
+
+
+        return manager;
     }
 
 
@@ -126,7 +144,7 @@ public class PageManager
     }
 
 
-    //todo 每次显示实时的错误信息
+
     public void showError()
     {
         mLoadingAndRetryLayout.showRetry();
@@ -141,7 +159,7 @@ public class PageManager
     {
         mLoadingAndRetryLayout.showEmpty();
     }
-
+    //每次显示实时的错误信息
     public void showError(CharSequence errorMsg){
 
         if(tvError != null){
@@ -203,7 +221,7 @@ public class PageManager
             final Activity finalActivity = (Activity) context;
 
             dialog = builder        //
-                    .setTitle("无网络")            //
+                    .setTitle("提示")            //
                     .setMessage("当前无网络").setPositiveButton("去设置", new DialogInterface.OnClickListener() {
 
                         @Override
@@ -275,9 +293,8 @@ public class PageManager
             View view = (View) activityOrFragmentOrView;
             contentParent = (ViewGroup) (view.getParent());
             context = view.getContext();
-        } else
-        {
-            throw new IllegalArgumentException("the argument's type must be Fragment or Activity: init(context)");
+        } else{
+            throw new IllegalArgumentException("the container's type must be Fragment or Activity or a view which already has a parent ");
         }
         int childCount = contentParent.getChildCount();
         //get contentParent

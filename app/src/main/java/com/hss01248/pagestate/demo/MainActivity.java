@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         PageManager.initInApp(getApplicationContext());
 
-        pageStateManager = PageManager.init(this, "空空快快快快快快快快快快快快",new Runnable() {
+        pageStateManager = PageManager.init(this, "空空快快快快快快快快快快快快",true,new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(MainActivity.this,"点击重试了...",Toast.LENGTH_LONG).show();

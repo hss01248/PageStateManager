@@ -25,14 +25,16 @@ public static void initInApp(Context appContext)//使用默认提供的几个状
 
 ```
   /**
+     *
      * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
      * @param retryAction 点击重试的动作,注意,只需要关注有网络的情况,无网络状态时已经封装好:弹出对话框询问用户是否去设置网络
+     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
      * @return 当前页面的状态管理器
      */
-    public static PageManager init(final Object container, final Runnable retryAction) 
+    public static PageManager init(final Object container, boolean isShowLoadingOrContent ,final Runnable retryAction)
     
     //如果当前页面的空白状态下,提示语需要自定义,则调用此方法
-    public static PageManager init(final Object container, final CharSequence emptyMsg, final Runnable retryAction)
+    public static PageManager init(final Object container, final CharSequence emptyMsg, boolean isShowLoadingOrContent ,final Runnable retryAction)
 ```
 
 ## 控制页面状态
@@ -95,7 +97,7 @@ Add it in your root build.gradle at the end of repositories:
 ## 示例代码
 
 ```
- pageStateManager = PageManager.init(this, "空空快快快快快快快快快快快快",new Runnable() {
+ pageStateManager = PageManager.init(this, "空空快快快快快快快快快快快快",true,new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(MainActivity.this,"点击重试了...",Toast.LENGTH_LONG).show();
@@ -128,5 +130,4 @@ Add it in your root build.gradle at the end of repositories:
             }
         },2000);
     }
-
 ```
