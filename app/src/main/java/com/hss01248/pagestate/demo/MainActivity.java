@@ -3,8 +3,10 @@ package com.hss01248.pagestate.demo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
+import com.hss01248.pagestate.PageListener;
 import com.hss01248.pagestate.PageManager;
 
 import java.util.Random;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
                 doNet();
             }
         });
+
+
 
 
 

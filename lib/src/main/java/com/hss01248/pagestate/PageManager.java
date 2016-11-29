@@ -300,8 +300,7 @@ public class PageManager
         //get contentParent
         int index = 0;
         View oldContent;
-        if (activityOrFragmentOrView instanceof View)
-        {
+        if (activityOrFragmentOrView instanceof View){
             oldContent = (View) activityOrFragmentOrView;
             for (int i = 0; i < childCount; i++)
             {
@@ -311,8 +310,7 @@ public class PageManager
                     break;
                 }
             }
-        } else
-        {
+        } else{
             oldContent = contentParent.getChildAt(0);
         }
         contentParent.removeView(oldContent);

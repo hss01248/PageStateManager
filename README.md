@@ -67,6 +67,10 @@ public void showError(CharSequence errorMsg)
 
 
 
+无网络时弹出dialog:
+
+ ![error_dialog](error_dialog.jpg)
+
 # 使用
 
 ## gradle
@@ -88,7 +92,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ```
     dependencies {
-            compile 'com.github.hss01248:PageStateManager:1.0.1'
+            compile 'com.github.hss01248:PageStateManager:1.0.2'
     }
 ```
 
@@ -131,3 +135,17 @@ Add it in your root build.gradle at the end of repositories:
         },2000);
     }
 ```
+
+# 注意事项
+
+1.给view对象设置状态时,该对象必须有parent
+
+2.失败页面的无网络状态已经处理,runnable里只需要包装有网络时的处理动作.
+
+
+
+
+
+# blog
+
+[介绍一下页面状态管理类PageStateManager,我实在看不下去你们直接用Layout](http://www.jianshu.com/p/665a69e9436b)
