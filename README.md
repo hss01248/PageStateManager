@@ -5,6 +5,18 @@
 
 在张鸿洋的[LoadingAndRetryManager](https://github.com/hongyangAndroid/LoadingAndRetryManager)的基础上改写,优化api,封装常用的逻辑.
 
+
+
+# 更新:fragment的操作改变了
+
+由于fragment的生命周期引起的bug,已取消原先直接传入fragment对象的方式.
+
+请改成传入组成fragment的view,注意该view对象传入时,其parent不能为空,也就是,该view不能是xml的根view,可以自己随便包一层.
+
+ps.
+
+其实fragment本质也是基于view包裹了一层api,搞点生命周期之类的,api难用得要死,还一大堆坑,还不如自己包装一个view,自己加点生命周期,高度可控,减少bug.我的项目中从来都不用fragment,都是自己把view包装成各种page.
+
 # API
 
 ## BaseApplication里的初始化
@@ -26,7 +38,7 @@ public static void initInApp(Context appContext)//使用默认提供的几个状
 ```
   /**
      *
-     * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
+     * @param container  必须为activity或者view.如果是view,则该view对象必须有parent
      * @param retryAction 点击重试的动作,注意,只需要关注有网络的情况,无网络状态时已经封装好:弹出对话框询问用户是否去设置网络
      * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
      * @return 当前页面的状态管理器
@@ -92,7 +104,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ```
     dependencies {
-            compile 'com.github.hss01248:PageStateManager:1.0.2'
+            compile 'com.github.hss01248:PageStateManager:1.0.3'
     }
 ```
 
