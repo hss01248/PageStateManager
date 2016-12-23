@@ -66,7 +66,7 @@ public class PageManager
 
     /**
      *
-     * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
+     * @param container  必须为activity或者view.如果是view,则该view对象必须有parent
      * @param retryAction 点击重试的动作,注意,只需要关注有网络的情况,无网络状态时已经封装好:弹出对话框询问用户是否去设置网络
      * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
      * @return 当前页面的状态管理器
@@ -272,36 +272,42 @@ public class PageManager
     };
 
 
-    public PageManager(Object activityOrFragmentOrView, PageListener listener)
+    public PageManager(Object activityOrView, PageListener listener)
     {
         if (listener == null) listener = DEFAULT_LISTENER;
 
         ViewGroup contentParent = null;
         Context context;
-        if (activityOrFragmentOrView instanceof Activity)
-        {
-            Activity activity = (Activity) activityOrFragmentOrView;
+        if (activityOrView instanceof Activity) {
+            Activity activity = (Activity) activityOrView;
             context = activity;
             contentParent = (ViewGroup) activity.findViewById(android.R.id.content);
-        } else if (activityOrFragmentOrView instanceof Fragment)
-        {
-            Fragment fragment = (Fragment) activityOrFragmentOrView;
+        } else if (activityOrView instanceof Fragment) {
+
+            Fragment fragment = (Fragment) activityOrView;
             context = fragment.getActivity();
             contentParent = (ViewGroup) (fragment.getView().getParent());
-        } else if (activityOrFragmentOrView instanceof View)
-        {
-            View view = (View) activityOrFragmentOrView;
+
+            throw new IllegalArgumentException("the support for fragment has been canceled,please use give me a view object which has a parent");
+
+        } else if (activityOrView instanceof View) {
+            View view = (View) activityOrView;
             contentParent = (ViewGroup) (view.getParent());
+            if(contentParent == null){
+                throw new IllegalArgumentException("the view must already has a parent ");
+            }
             context = view.getContext();
         } else{
-            throw new IllegalArgumentException("the container's type must be Fragment or Activity or a view which already has a parent ");
+            throw new IllegalArgumentException("the container's type must be Fragment or Activity or a view ");
         }
+
+
         int childCount = contentParent.getChildCount();
         //get contentParent
         int index = 0;
         View oldContent;
-        if (activityOrFragmentOrView instanceof View){
-            oldContent = (View) activityOrFragmentOrView;
+        if (activityOrView instanceof View){
+            oldContent = (View) activityOrView;
             for (int i = 0; i < childCount; i++)
             {
                 if (contentParent.getChildAt(i) == oldContent)
@@ -388,9 +394,9 @@ public class PageManager
         }
     }
 
-    public static PageManager generate(Object activityOrFragment, PageListener listener)
+    public static PageManager generate(Object activityOrView, PageListener listener)
     {
-        return new PageManager(activityOrFragment, listener);
+        return new PageManager(activityOrView, listener);
     }
 
 

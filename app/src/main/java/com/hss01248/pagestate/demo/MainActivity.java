@@ -1,12 +1,10 @@
 package com.hss01248.pagestate.demo;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
-import com.hss01248.pagestate.PageListener;
 import com.hss01248.pagestate.PageManager;
 
 import java.util.Random;
@@ -21,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PageManager.initInApp(getApplicationContext());
+        PageManager.initInApp(getApplicationContext(),R.layout.pager_empty,R.layout.pager_loading,R.layout.pager_error);
+
 
         pageStateManager = PageManager.init(this, "空空快快快快快快快快快快快快",true,new Runnable() {
             @Override

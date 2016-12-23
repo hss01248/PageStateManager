@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/empty_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_empty_page" />
+    <TextView
+        android:id="@+id/tv_msg_empty"
+        android:layout_below="@id/empty_icon"
+        android:layout_marginTop="15dp"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"
+        android:text="咦...没有任何内容，先去逛逛别的吧"
+        android:textColor="#666666"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>
