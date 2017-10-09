@@ -178,7 +178,7 @@ public class PageManager
 
 
 
-    private static boolean isNetWorkAvailable(Context context) {
+    public static boolean isNetWorkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {
@@ -200,7 +200,7 @@ public class PageManager
      * 当判断当前手机没有网络时选择是否打开网络设置
 
      */
-    private static AlertDialog showNoNetWorkDlg(final Object container) {
+    public static AlertDialog showNoNetWorkDlg(final Object container) {
         AlertDialog dialog = null;
          Context context = null;
 
