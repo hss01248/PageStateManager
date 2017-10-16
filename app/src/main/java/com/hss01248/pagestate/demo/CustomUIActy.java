@@ -1,61 +1,69 @@
 package com.hss01248.pagestate.demo;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
 
 import com.hss01248.pagestate.demo.pagemanager.MyPageListener;
 import com.hss01248.pagestate.demo.pagemanager.MyPageManager;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by huangshuisheng on 2017/10/16.
+ */
+
+public class CustomUIActy extends Activity {
 
     MyPageManager pageStateManager;
-    Handler handler = new Handler();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        init();
 
+        initView();
+        doNet();
     }
 
-    private void init() {
+    private void initView() {
+        setContentView(R.layout.activity_main);
         pageStateManager = MyPageManager.init(this, new MyPageListener() {
             @Override
             protected void onReallyRetry() {
                 doNet();
+            }
 
-            }});
+            @Override
+            public int generateEmptyLayoutId() {
+                return R.layout.pager_empty_aku;
+            }
 
-    }
+            @Override
+            public int generateLoadingLayoutId() {
+                return R.layout.pager_loading_aku;
+            }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        doNet();
-
-
-
-
+            @Override
+            public int generateRetryLayoutId() {
+                return R.layout.pager_error_aku;
+            }
+        });
     }
 
     private void doNet() {
         pageStateManager.showLoading();
 
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 int  state = new Random().nextInt(3);
                 switch (state){
                     case 0:
-                        pageStateManager.showError("error occured!!!!!!!!!!!!");
+                        pageStateManager.showError();
                         break;
                     case 1:
-                        pageStateManager.showEmpty("没有东西,惊喜不惊喜?");
+                        pageStateManager.showEmpty();
                         break;
                     case 2:
                         pageStateManager.showContent();

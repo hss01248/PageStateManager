@@ -6,13 +6,15 @@ public abstract class PageListener
 {
 
 
-    public abstract void setRetryEvent(View retryView);
+    public abstract void onRetry(View retryView);
 
-    public void setLoadingEvent(View loadingView)
-    {
+    /*public void onNoNetwork(View noNetworkView) {
+    }*/
+
+    public void onLoading(View loadingView) {
     }
 
-    public void setEmptyEvent(View emptyView)
+    public void onEmtpty(View emptyView)
     {
     }
 

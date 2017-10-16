@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+	<Button
+			android:text="全局默认ui"
+			android:textAllCaps="false"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/button" />
+
+	<Button
+			android:text="页面自定义ui"
+			android:textAllCaps="false"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/button2" />
+</LinearLayout>

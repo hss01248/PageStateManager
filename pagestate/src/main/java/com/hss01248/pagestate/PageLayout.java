@@ -15,6 +15,7 @@ public class PageLayout extends FrameLayout
 {
     private View mLoadingView;
     private View mRetryView;
+   // private View noNetworkView;
     private View mContentView;
     private View mEmptyView;
     private LayoutInflater mInflater;
