@@ -37,7 +37,7 @@ public class PageManager
 
 
     /**
-     * 如果需要后续调用自定义空白msg,错误msg字符串的api,则页面中显示该字符串的textview的id必须为tv_msg_empty,tv_msg_error
+
      * @param appContext
      * @param layoutIdOfEmpty
      * @param layoutIdOfLoading
@@ -65,7 +65,7 @@ public class PageManager
     /**
      *
      * @param container  必须为activity或者view.如果是view,则该view对象必须有parent
-     * @param retryAction 点击重试的动作,注意,只需要关注有网络的情况,无网络状态时已经封装好:弹出对话框询问用户是否去设置网络
+     * @param retryAction 点击重试的动作,
      * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
      * @return 当前页面的状态管理器
      *//*
