@@ -3,6 +3,7 @@ package com.hss01248.pagestate.demo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.hss01248.pagestate.demo.pagemanager.MyPageListener;
 import com.hss01248.pagestate.demo.pagemanager.MyPageManager;
@@ -28,7 +29,15 @@ public class MainActivity extends AppCompatActivity {
             protected void onReallyRetry() {
                 doNet();
 
-            }});
+            }
+
+            @Override
+            public void onEmtptyViewClicked(View emptyView) {
+                super.onEmtptyViewClicked(emptyView);
+
+                doNet();
+            }
+        });
 
     }
 
@@ -55,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         pageStateManager.showError("error occured!!!!!!!!!!!!");
                         break;
                     case 1:
-                        pageStateManager.showEmpty("没有东西,惊喜不惊喜?");
+                        pageStateManager.showEmpty("没有东西,惊喜不惊喜?\n你可以点击重试一下");
                         break;
                     case 2:
                         pageStateManager.showContent();

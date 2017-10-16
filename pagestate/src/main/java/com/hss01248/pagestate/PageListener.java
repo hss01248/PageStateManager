@@ -11,11 +11,10 @@ public abstract class PageListener
     /*public void onNoNetwork(View noNetworkView) {
     }*/
 
-    public void onLoading(View loadingView) {
-    }
+   /* public void onLoading(View loadingView) {
+    }*/
 
-    public void onEmtpty(View emptyView)
-    {
+    public void onEmtptyViewClicked(View emptyView) {
     }
 
     public int generateLoadingLayoutId()

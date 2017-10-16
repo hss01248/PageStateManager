@@ -5,6 +5,11 @@
 
 在张鸿洋的[LoadingAndRetryManager](https://github.com/hongyangAndroid/LoadingAndRetryManager)的基础上改写,修正一些bug,优化api,并提供使用时封装的例子
 
+# 特性
+* api超级简单
+* 无需更改layout文件
+* 错误页面和空白页面均提供了点击事件的回调,直接实现即可
+
 
 
 # 更新:fragment的操作改变了

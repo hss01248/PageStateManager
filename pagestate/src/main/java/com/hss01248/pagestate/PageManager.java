@@ -322,6 +322,14 @@ public class PageManager
 
            }
        });
+        pageLayout.getEmptyView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(finalListener!=null){
+                    finalListener.onEmtptyViewClicked(v);
+                }
+            }
+        });
         mLoadingAndRetryLayout = pageLayout;
         //初始状态:loading进去
         if(showLoadingFirstIn){
