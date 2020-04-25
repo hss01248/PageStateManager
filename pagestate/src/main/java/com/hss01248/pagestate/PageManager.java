@@ -16,13 +16,14 @@ import android.widget.TextView;
 /**
  * Created by zhy on 15/8/27.
  */
-public class PageManager {
+public class PageManager implements IViewState{
     public static final int NO_LAYOUT_ID = 0;
-    public static int BASE_LOADING_LAYOUT_ID;//= R.layout.pager_loading
-    public static int BASE_RETRY_LAYOUT_ID;//= R.layout.pager_error
-    public static int BASE_EMPTY_LAYOUT_ID;//= R.layout.pager_empty
+    public static int BASE_LOADING_LAYOUT_ID = R.layout.pager_loading;
+    public static int BASE_RETRY_LAYOUT_ID = R.layout.pager_error;
+    public static int BASE_EMPTY_LAYOUT_ID = R.layout.pager_empty;
     private static Context appContext;
     public PageLayout mLoadingAndRetryLayout;
+
     /**
      * 当判断当前手机没有网络时选择是否打开网络设置
      */
@@ -88,36 +89,17 @@ public class PageManager {
 
 
 
-    public PageListener DEFAULT_LISTENER = new PageListener() {
+     PageListener DEFAULT_LISTENER = new PageListener() {
         @Override
         public void onRetry(View retryView) {
 
         }
     };
-    private TextView tvError;
 
+     PageManager(Context context){
 
-    /**
-     *
-     * @param container  必须为activity或者view.如果是view,则该view对象必须有parent
-     * @param retryAction 点击重试的动作,
-     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
-     * @return 当前页面的状态管理器
-     *//*
-    public static PageManager init(final Object container, boolean isShowLoadingOrContent ,final Runnable retryAction) {
-        PageManager manager = generate(container, isShowLoadingOrContent,new PageListener() {
-            @Override
-            public void onRetry(View retryView) {
-                if (!isNetWorkAvailable(appContext)) {
-                    showNoNetWorkDlg(container);
-                } else {
-                    retryAction.run();
-                }
-            }
-        });
+    }
 
-        return manager;
-    }*/
 
     private PageManager(Object activityOrView, boolean showLoadingFirstIn, PageListener listener) {
         if (listener == null) listener = DEFAULT_LISTENER;
@@ -268,8 +250,14 @@ public class PageManager {
 
         return manager;
     }*/
+    @Override
     public void showLoading() {
         mLoadingAndRetryLayout.showLoading();
+    }
+
+    @Override
+    public void showError(CharSequence msg) {
+        mLoadingAndRetryLayout.showError(msg);
     }
     //每次显示实时的错误信息
     /*public void showError(CharSequence errorMsg){
@@ -308,14 +296,14 @@ public class PageManager {
         return false;
     }*/
 
-    public void showError() {
-        mLoadingAndRetryLayout.showRetry();
-    }
 
+
+    @Override
     public void showContent() {
         mLoadingAndRetryLayout.showContent();
     }
 
+    @Override
     public void showEmpty() {
         mLoadingAndRetryLayout.showEmpty();
     }

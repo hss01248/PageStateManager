@@ -2,28 +2,43 @@ package com.hss01248.pagestate;
 
 import android.content.Context;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 /**
  * Created by zhy on 15/8/26.
  */
-public class PageLayout extends FrameLayout {
+public class PageLayout extends FrameLayout implements IViewState{
     private static final String TAG = PageLayout.class.getSimpleName();
     private View mLoadingView;
     private View mRetryView;
-    // private View noNetworkView;
     private View mContentView;
     private View mEmptyView;
     private LayoutInflater mInflater;
+    private PageManager manager;
 
 
     public PageLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mInflater = LayoutInflater.from(context);
+       initView(context,attrs,defStyleAttr);
+    }
+
+    private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
+        int childCount = this.getChildCount();
+        if(childCount > 1){
+            throw new RuntimeException("content must be one");
+        }
+        if(childCount == 1){
+            mContentView = getChildAt(0);
+        }
+        manager = new PageManager(context);
     }
 
 
@@ -35,10 +50,12 @@ public class PageLayout extends FrameLayout {
         this(context, null);
     }
 
+
     private boolean isMainThread() {
         return Looper.myLooper() == Looper.getMainLooper();
     }
 
+    @Override
     public void showLoading() {
         if (isMainThread()) {
             showView(mLoadingView);
@@ -52,20 +69,49 @@ public class PageLayout extends FrameLayout {
         }
     }
 
-    public void showRetry() {
+    /**
+     * 会找到第一个textview,设置text. 如果msg为空,则不设置
+     * @param msg
+     */
+    @Override
+    public void showError(final CharSequence msg) {
         if (isMainThread()) {
             showView(mRetryView);
+            setText(mRetryView,msg);
         } else {
             post(new Runnable() {
                 @Override
                 public void run() {
                     showView(mRetryView);
+                    setText(mRetryView,msg);
                 }
             });
+        }
+    }
+
+    private void setText(View view1, CharSequence msg) {
+        if(TextUtils.isEmpty(msg)){
+            return;
+        }
+        if(view1 instanceof ViewGroup){
+            ViewGroup viewGroup = (ViewGroup) view1;
+            int count = viewGroup.getChildCount();
+            if(count > 0){
+                for (int i = 0; i < count; i++) {
+                    View view = viewGroup.getChildAt(i);
+                    if(view instanceof TextView){
+                        TextView textView = (TextView) view;
+                        textView.setText(msg);
+                        return;
+                    }
+                }
+            }
         }
 
     }
 
+
+    @Override
     public void showContent() {
         if (isMainThread()) {
             showView(mContentView);
@@ -79,6 +125,7 @@ public class PageLayout extends FrameLayout {
         }
     }
 
+    @Override
     public void showEmpty() {
         if (isMainThread()) {
             showView(mEmptyView);

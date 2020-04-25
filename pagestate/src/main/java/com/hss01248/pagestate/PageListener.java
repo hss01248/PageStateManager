@@ -18,15 +18,15 @@ public abstract class PageListener {
     }
 
     public int generateLoadingLayoutId() {
-        return PageManager.NO_LAYOUT_ID;
+        return PageManager.BASE_LOADING_LAYOUT_ID;
     }
 
     public int generateRetryLayoutId() {
-        return PageManager.NO_LAYOUT_ID;
+        return PageManager.BASE_RETRY_LAYOUT_ID;
     }
 
     public int generateEmptyLayoutId() {
-        return PageManager.NO_LAYOUT_ID;
+        return PageManager.BASE_EMPTY_LAYOUT_ID;
     }
 
     public View generateLoadingLayout() {

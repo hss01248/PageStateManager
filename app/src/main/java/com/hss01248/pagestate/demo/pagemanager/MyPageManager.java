@@ -38,11 +38,7 @@ public class MyPageManager {
         }
     }
 
-    public void showError(){
-        if(pageManager!=null){
-            pageManager.showError();
-        }
-    }
+
 
     public void showEmpty(){
         if(pageManager!=null){
@@ -62,7 +58,7 @@ public class MyPageManager {
 
     public void showError(CharSequence msg){
         if(pageManager!=null){
-            pageManager.showError();
+            pageManager.showError(msg);
           TextView textView = (TextView) pageManager.mLoadingAndRetryLayout.findViewById(R.id.tv_msg_error);
             if(textView!=null){
                 textView.setText(msg);
