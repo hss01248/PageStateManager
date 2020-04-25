@@ -5,20 +5,19 @@ package com.hss01248.pagestate;
  */
 
 public class PageStateConfig {
-    private static int loaingLayoutId;
     public static int emptyLayoutId;
     public static int errorLayoutId;
     public static int noNetworkLayoutId;
     public static PageStateConfig globalConfig;
+    private static int loaingLayoutId;
 
-    public static void setGlobal(int loaingLayoutId,int emptyLayoutId,int errorLayoutId,int noNetworkLayoutId){
+    public static void setGlobal(int loaingLayoutId, int emptyLayoutId, int errorLayoutId, int noNetworkLayoutId) {
         globalConfig = new PageStateConfig();
         globalConfig.loaingLayoutId = loaingLayoutId;
         globalConfig.emptyLayoutId = emptyLayoutId;
         globalConfig.errorLayoutId = errorLayoutId;
         globalConfig.noNetworkLayoutId = noNetworkLayoutId;
     }
-
 
 
 }

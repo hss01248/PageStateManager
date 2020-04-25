@@ -13,167 +13,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-
 /**
  * Created by zhy on 15/8/27.
  */
-public class PageManager
-{
+public class PageManager {
     public static final int NO_LAYOUT_ID = 0;
-    public static int BASE_LOADING_LAYOUT_ID ;//= R.layout.pager_loading
-    public static int BASE_RETRY_LAYOUT_ID ;//= R.layout.pager_error
-    public static int BASE_EMPTY_LAYOUT_ID ;//= R.layout.pager_empty
-
-
-
-    public PageLayout mLoadingAndRetryLayout;
-
+    public static int BASE_LOADING_LAYOUT_ID;//= R.layout.pager_loading
+    public static int BASE_RETRY_LAYOUT_ID;//= R.layout.pager_error
+    public static int BASE_EMPTY_LAYOUT_ID;//= R.layout.pager_empty
     private static Context appContext;
-
-
-    private TextView tvError;
-
-
-
-
-    /**
-
-     * @param appContext
-     * @param layoutIdOfEmpty
-     * @param layoutIdOfLoading
-     * @param layoutIdOfError
-     */
-    public static void initInApp(Context appContext,int layoutIdOfEmpty,int layoutIdOfLoading,int layoutIdOfError){
-
-            PageManager.appContext = appContext;
-        if(layoutIdOfEmpty > 0){
-            BASE_EMPTY_LAYOUT_ID = layoutIdOfEmpty;
-        }
-
-        if(layoutIdOfLoading >0){
-            BASE_LOADING_LAYOUT_ID = layoutIdOfLoading;
-        }
-
-        if(layoutIdOfError >0){
-            BASE_RETRY_LAYOUT_ID = layoutIdOfError;
-        }
-
-
-    }
-
-
-    /**
-     *
-     * @param container  必须为activity或者view.如果是view,则该view对象必须有parent
-     * @param retryAction 点击重试的动作,
-     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
-     * @return 当前页面的状态管理器
-     *//*
-    public static PageManager init(final Object container, boolean isShowLoadingOrContent ,final Runnable retryAction) {
-        PageManager manager = generate(container, isShowLoadingOrContent,new PageListener() {
-            @Override
-            public void onRetry(View retryView) {
-                if (!isNetWorkAvailable(appContext)) {
-                    showNoNetWorkDlg(container);
-                } else {
-                    retryAction.run();
-                }
-            }
-        });
-
-        return manager;
-    }*/
-
-    /**
-     *
-     * @param container  必须为activity,fragment或者view.如果是view,则该view对象必须有parent
-     * @param emptyMsg  自定义空白String
-     * @param retryAction
-     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
-     * @return
-     *//*
-    public static PageManager init(final Object container, final CharSequence emptyMsg, boolean isShowLoadingOrContent ,final Runnable retryAction){
-        PageManager manager =  generate(container, isShowLoadingOrContent,new PageListener() {
-            @Override
-            public void onRetry(View retryView) {
-                if (!isNetWorkAvailable(appContext)) {
-                    showNoNetWorkDlg(container);
-                } else {
-                    retryAction.run();
-                }
-            }
-
-            @Override
-            public View generateEmptyLayout() {
-                return generateCustomEmptyView(emptyMsg);
-            }
-        });
-
-        return manager;
-    }*/
-
-
-    public void showLoading()
-    {
-        mLoadingAndRetryLayout.showLoading();
-    }
-
-
-
-    public void showError()
-    {
-        mLoadingAndRetryLayout.showRetry();
-    }
-
-    public void showContent()
-    {
-        mLoadingAndRetryLayout.showContent();
-    }
-
-    public void showEmpty()
-    {
-        mLoadingAndRetryLayout.showEmpty();
-    }
-    //每次显示实时的错误信息
-    /*public void showError(CharSequence errorMsg){
-
-        if(tvError != null){
-            tvError.setText(errorMsg);
-            mLoadingAndRetryLayout.showRetry();
-            return;
-        }
-        ViewGroup view = (ViewGroup) mLoadingAndRetryLayout.getRetryView();
-        tvError = (TextView) view.findViewById(R.id.tv_msg_error);
-        tvError.setText(errorMsg);
-        mLoadingAndRetryLayout.showRetry();
-    }*/
-
-
-
-
-
-
-    /*public static boolean isNetWorkAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager == null) {
-            return false;
-        } else {
-            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-            if (info == null) {
-                return false;
-            } else {
-                if (info.isAvailable()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
-
+    public PageLayout mLoadingAndRetryLayout;
     /**
      * 当判断当前手机没有网络时选择是否打开网络设置
-
      */
    /* public static AlertDialog showNoNetWorkDlg(final Object container) {
         AlertDialog dialog = null;
@@ -237,18 +88,38 @@ public class PageManager
 
 
 
-    public PageListener DEFAULT_LISTENER = new PageListener()
-    {
+    public PageListener DEFAULT_LISTENER = new PageListener() {
         @Override
-        public void onRetry(View retryView)
-        {
+        public void onRetry(View retryView) {
 
         }
     };
+    private TextView tvError;
 
 
-    private PageManager( Object activityOrView, boolean showLoadingFirstIn,PageListener listener)
-    {
+    /**
+     *
+     * @param container  必须为activity或者view.如果是view,则该view对象必须有parent
+     * @param retryAction 点击重试的动作,
+     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
+     * @return 当前页面的状态管理器
+     *//*
+    public static PageManager init(final Object container, boolean isShowLoadingOrContent ,final Runnable retryAction) {
+        PageManager manager = generate(container, isShowLoadingOrContent,new PageListener() {
+            @Override
+            public void onRetry(View retryView) {
+                if (!isNetWorkAvailable(appContext)) {
+                    showNoNetWorkDlg(container);
+                } else {
+                    retryAction.run();
+                }
+            }
+        });
+
+        return manager;
+    }*/
+
+    private PageManager(Object activityOrView, boolean showLoadingFirstIn, PageListener listener) {
         if (listener == null) listener = DEFAULT_LISTENER;
 
         ViewGroup contentParent = null;
@@ -262,7 +133,7 @@ public class PageManager
             Fragment fragment = (Fragment) activityOrView;
             context = fragment.getActivity();
             contentParent = (ViewGroup) (fragment.getView().getParent());
-            if(contentParent == null){
+            if (contentParent == null) {
                 throw new IllegalArgumentException("the fragment must already has a parent ,please do not invoke this in oncreateView,you should use this method in onActivityCreated() or onstart");
             }
 
@@ -271,11 +142,11 @@ public class PageManager
         } else if (activityOrView instanceof View) {
             View view = (View) activityOrView;
             contentParent = (ViewGroup) (view.getParent());
-            if(contentParent == null){
+            if (contentParent == null) {
                 throw new IllegalArgumentException("the view must already has a parent ");
             }
             context = view.getContext();
-        } else{
+        } else {
             throw new IllegalArgumentException("the container's type must be Fragment or Activity or a view ");
         }
 
@@ -284,17 +155,15 @@ public class PageManager
         //get contentParent
         int index = 0;
         View oldContent;
-        if (activityOrView instanceof View){
+        if (activityOrView instanceof View) {
             oldContent = (View) activityOrView;
-            for (int i = 0; i < childCount; i++)
-            {
-                if (contentParent.getChildAt(i) == oldContent)
-                {
+            for (int i = 0; i < childCount; i++) {
+                if (contentParent.getChildAt(i) == oldContent) {
                     index = i;
                     break;
                 }
             }
-        } else{
+        } else {
             oldContent = contentParent.getChildAt(0);
         }
         contentParent.removeView(oldContent);
@@ -314,30 +183,136 @@ public class PageManager
         listener.setEmptyEvent(pageLayout.getEmptyView());*/
         final PageListener finalListener = listener;
         pageLayout.getRetryView().setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               if(finalListener !=null){
-                   finalListener.onRetry(v);
-               }
+            @Override
+            public void onClick(View v) {
+                if (finalListener != null) {
+                    finalListener.onRetry(v);
+                }
 
-           }
-       });
+            }
+        });
         pageLayout.getEmptyView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(finalListener!=null){
+                if (finalListener != null) {
                     finalListener.onEmtptyViewClicked(v);
                 }
             }
         });
         mLoadingAndRetryLayout = pageLayout;
         //初始状态:loading进去
-        if(showLoadingFirstIn){
+        if (showLoadingFirstIn) {
             mLoadingAndRetryLayout.showLoading();
-        }else {
+        } else {
             mLoadingAndRetryLayout.showContent();
         }
 
+    }
+
+    /**
+     * @param appContext
+     * @param layoutIdOfEmpty
+     * @param layoutIdOfLoading
+     * @param layoutIdOfError
+     */
+    public static void initInApp(Context appContext, int layoutIdOfEmpty, int layoutIdOfLoading, int layoutIdOfError) {
+
+        PageManager.appContext = appContext;
+        if (layoutIdOfEmpty > 0) {
+            BASE_EMPTY_LAYOUT_ID = layoutIdOfEmpty;
+        }
+
+        if (layoutIdOfLoading > 0) {
+            BASE_LOADING_LAYOUT_ID = layoutIdOfLoading;
+        }
+
+        if (layoutIdOfError > 0) {
+            BASE_RETRY_LAYOUT_ID = layoutIdOfError;
+        }
+
+
+    }
+
+    public static PageManager generate(Object activityOrView, boolean showLoadingFirstIn, PageListener listener) {
+        return new PageManager(activityOrView, showLoadingFirstIn, listener);
+    }
+
+    /**
+     * @param container              必须为activity,fragment或者view.如果是view,则该view对象必须有parent
+     * @param emptyMsg               自定义空白String
+     * @param retryAction
+     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
+     * @return
+     *//*
+    public static PageManager init(final Object container, final CharSequence emptyMsg, boolean isShowLoadingOrContent ,final Runnable retryAction){
+        PageManager manager =  generate(container, isShowLoadingOrContent,new PageListener() {
+            @Override
+            public void onRetry(View retryView) {
+                if (!isNetWorkAvailable(appContext)) {
+                    showNoNetWorkDlg(container);
+                } else {
+                    retryAction.run();
+                }
+            }
+
+            @Override
+            public View generateEmptyLayout() {
+                return generateCustomEmptyView(emptyMsg);
+            }
+        });
+
+        return manager;
+    }*/
+    public void showLoading() {
+        mLoadingAndRetryLayout.showLoading();
+    }
+    //每次显示实时的错误信息
+    /*public void showError(CharSequence errorMsg){
+
+        if(tvError != null){
+            tvError.setText(errorMsg);
+            mLoadingAndRetryLayout.showRetry();
+            return;
+        }
+        ViewGroup view = (ViewGroup) mLoadingAndRetryLayout.getRetryView();
+        tvError = (TextView) view.findViewById(R.id.tv_msg_error);
+        tvError.setText(errorMsg);
+        mLoadingAndRetryLayout.showRetry();
+    }*/
+
+
+
+
+
+
+    /*public static boolean isNetWorkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) {
+            return false;
+        } else {
+            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+            if (info == null) {
+                return false;
+            } else {
+                if (info.isAvailable()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }*/
+
+    public void showError() {
+        mLoadingAndRetryLayout.showRetry();
+    }
+
+    public void showContent() {
+        mLoadingAndRetryLayout.showContent();
+    }
+
+    public void showEmpty() {
+        mLoadingAndRetryLayout.showEmpty();
     }
 
     private void setupEmptyLayout(PageListener listener, PageLayout loadingAndRetryLayout) {
@@ -357,15 +332,12 @@ public class PageManager
     private void setupLoadingLayout(PageListener listener, PageLayout loadingAndRetryLayout) {
         if (listener.isSetLoadingLayout()) {
             int layoutId = listener.generateLoadingLayoutId();
-            if (layoutId != NO_LAYOUT_ID)
-            {
+            if (layoutId != NO_LAYOUT_ID) {
                 loadingAndRetryLayout.setLoadingView(layoutId);
-            } else
-            {
+            } else {
                 loadingAndRetryLayout.setLoadingView(listener.generateLoadingLayout());
             }
-        } else
-        {
+        } else {
             if (BASE_LOADING_LAYOUT_ID != NO_LAYOUT_ID)
                 loadingAndRetryLayout.setLoadingView(BASE_LOADING_LAYOUT_ID);
         }
@@ -384,12 +356,6 @@ public class PageManager
                 loadingAndRetryLayout.setRetryView(BASE_RETRY_LAYOUT_ID);
         }
     }
-
-    public static PageManager generate(Object activityOrView, boolean showLoadingFirstIn,PageListener listener) {
-        return new PageManager(activityOrView,showLoadingFirstIn, listener);
-    }
-
-
 
 
 }
