@@ -14,6 +14,7 @@ public abstract class PageListener {
     }*/
 
     public void onEmtptyViewClicked(View emptyView) {
+        onRetry(emptyView);
     }
 
     public int generateLoadingLayoutId() {

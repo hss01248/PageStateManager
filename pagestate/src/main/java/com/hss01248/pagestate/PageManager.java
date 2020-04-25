@@ -185,9 +185,14 @@ public class PageManager {
         pageLayout.getRetryView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (finalListener != null) {
-                    finalListener.onRetry(v);
+                if (!NoNetworkHelper.isNetWorkAvailable(v.getContext())) {
+                    NoNetworkHelper.showNoNetWorkDlg(v.getContext());
+                } else {
+                    if (finalListener != null) {
+                        finalListener.onRetry(v);
+                    }
                 }
+
 
             }
         });

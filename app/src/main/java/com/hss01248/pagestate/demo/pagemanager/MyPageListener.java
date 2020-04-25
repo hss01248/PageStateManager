@@ -18,11 +18,12 @@ import com.hss01248.pagestate.PageListener;
 public abstract class MyPageListener  extends PageListener {
     @Override
     public void onRetry(View retryView) {
-        if (!isNetWorkAvailable(retryView.getContext())) {
+        /*if (!isNetWorkAvailable(retryView.getContext())) {
             onNoNetWork(retryView);
         } else {
             onReallyRetry();
-        }
+        }*/
+        onReallyRetry();
     }
 
     public void onNoNetWork(View retryView) {

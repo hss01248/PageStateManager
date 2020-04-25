@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">pagestate</string>
+    <color name="shadow">#25808080</color>
 </resources>
