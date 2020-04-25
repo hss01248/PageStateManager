@@ -1,23 +1,37 @@
 package com.hss01248.pagestate;
 
-/**
- * Created by huangshuisheng on 2017/10/12.
- */
+import android.view.View;
 
-public class PageStateConfig {
-    public static int emptyLayoutId;
-    public static int errorLayoutId;
-    public static int noNetworkLayoutId;
-    public static PageStateConfig globalConfig;
-    private static int loaingLayoutId;
+public abstract class PageStateConfig {
 
-    public static void setGlobal(int loaingLayoutId, int emptyLayoutId, int errorLayoutId, int noNetworkLayoutId) {
-        globalConfig = new PageStateConfig();
-        globalConfig.loaingLayoutId = loaingLayoutId;
-        globalConfig.emptyLayoutId = emptyLayoutId;
-        globalConfig.errorLayoutId = errorLayoutId;
-        globalConfig.noNetworkLayoutId = noNetworkLayoutId;
+    public abstract void onRetry(View retryView);
+
+    public void onEmtptyViewClicked(View emptyView) {
+        onRetry(emptyView);
     }
+
+    public boolean isFirstStateLoading(){
+        return true;
+    }
+
+    public String emptyMsg(){
+        return "";
+    }
+
+    public int customLoadingLayoutId() {
+        return PageStateManager.BASE_LOADING_LAYOUT_ID;
+    }
+
+    public int customErrorLayoutId() {
+        return PageStateManager.BASE_RETRY_LAYOUT_ID;
+    }
+
+    public int customEmptyLayoutId() {
+        return PageStateManager.BASE_EMPTY_LAYOUT_ID;
+    }
+
+
+
 
 
 }

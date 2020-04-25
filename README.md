@@ -1,4 +1,4 @@
-# PageManager
+# PageStateManager/StatefulFrameLayout
 页面状态管理
 
 [![](https://jitpack.io/v/hss01248/PageStateManager.svg)](https://jitpack.io/#hss01248/PageStateManager)
@@ -7,8 +7,10 @@
 
 # 特性
 * api超级简单
-* 无需更改layout文件
+* 可以在xml中使用StatefulFrameLayout
+* 也可以不改动xml,直接在代码里使用PageStateManager
 * 错误页面和空白页面均提供了点击事件的回调,直接实现即可
+* 不改动framlayout本身任何属性,依然可以添加多个子view
 
 
 
@@ -26,71 +28,164 @@ ps.
 
 > 参考demo里的,自己封装一层(拷过去改一改)
 
+## 接口
 
-## BaseApplication里的初始化
+```
+public interface IViewState {
+
+     void showLoading();
+     void showError(CharSequence msg);
+     void showContent();
+     void showEmpty();
+}
+```
+
+# 四个级别的配置
+
+### 库内默认
+
+自带Loading,Empty,Error的xml:
+
+```
+public static int BASE_LOADING_LAYOUT_ID = R.layout.pager_loading;
+public static int BASE_RETRY_LAYOUT_ID = R.layout.pager_error;
+public static int BASE_EMPTY_LAYOUT_ID = R.layout.pager_empty;
+```
+
+## 使用时可全局配置
+
+在application的oncreate里调用:
+
+也就是修改上述的三个静态变量:
+
+```
+PageStateManager.initInAppOnCreate():
+```
+
+```
+public static void initInApp(int layoutIdOfEmpty, int layoutIdOfLoading, int layoutIdOfError) {
+    if (layoutIdOfEmpty != 0) {
+        BASE_EMPTY_LAYOUT_ID = layoutIdOfEmpty;
+    }
+    if (layoutIdOfLoading != 0) {
+        BASE_LOADING_LAYOUT_ID = layoutIdOfLoading;
+    }
+    if (layoutIdOfError != 0) {
+        BASE_RETRY_LAYOUT_ID = layoutIdOfError;
+    }
+}
+```
+
+
+
+## 单个页面的配置:
+
+### 可配置的项目:
+
+// PageConfig为抽象类: 
+
+仅一个必须实现的方法:
+
+
+    
+
+    public abstract class PageConfig {
+    
+    public abstract void onRetry(View retryView);//必须实现
+    
+    public void onEmtptyViewClicked(View emptyView) {
+        onRetry(emptyView);
+    }
+    
+    public boolean isFirstStateLoading(){
+        return true;
+    }
+    
+    public String emptyMsg(){
+        return "";
+    }
+    
+    public int customLoadingLayoutId() {
+        return PageStateManager.BASE_LOADING_LAYOUT_ID;
+    }
+    
+    public int customErrorLayoutId() {
+        return PageStateManager.BASE_RETRY_LAYOUT_ID;
+    }
+    
+    public int customEmptyLayoutId() {
+        return PageStateManager.BASE_EMPTY_LAYOUT_ID;
+    }
+### xml里使用statefulFrameLayout时:
+
+```
+<com.hss01248.pagestate.StatefulFrameLayout
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/context"
+        android:background="#ffff00"
+        android:text="i am the content!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/btn"
+        android:layout_marginTop="40dp"
+        android:text="view2"
+        android:layout_height="wrap_content"/>
+</com.hss01248.pagestate.StatefulFrameLayout>
+```
+
+```
+statefulFrameLayout.init(new PageConfig() {
+            @Override
+            public void onRetry(View retryView) {
+                doNet();
+            }
+        });
+        
 
 ```
 
-public static void initWhenAppOnCreate(Context application, int layoutResOfEmpty, int layoutResOfLoading, int layoutResOfError){
-       PageManager.initInApp(application,layoutResOfEmpty,layoutResOfLoading,layoutResOfError);
-   }
-   
-```
-
-
-
-## 页面中生成PageManager对象
+### 或者使用PageStateManager:
 
 ```
-  /**
+
+ /**
      *
      * @param container  必须为activity或者view.如果是view,则该view对象必须有parent
-     * @param retryAction 点击重试的动作,注意,只需要关注有网络的情况,无网络状态时已经封装好:弹出对话框询问用户是否去设置网络
-     * @param isShowLoadingOrContent 第一次是显示loading(true)还是content(false)
-     * @return 当前页面的状态管理器
      */
-    public static PageManager init(final Object container, boolean isShowLoadingOrContent ,final Runnable retryAction)
-    
-    
-    //封装后使用:
-    public static MyPageManager init(final Object container,  final MyPageListener pageListener){
-            PageManager manager =  PageManager.generate(container, true,pageListener);
-            MyPageManager myPageManager = new MyPageManager();
-            myPageManager.pageManager = manager;
-            return myPageManager;
-        }
-        
-        //其中,MyPageListener继承PageListener,并提供一个全局处理retry时无网络的情况:
-        
-        @Override
-            public void onRetry(View retryView) {
-                if (!isNetWorkAvailable(retryView.getContext())) {
-                    onNoNetWork(retryView);
-                } else {
-                    onReallyRetry();
-                }
-            }
-        
-            public void onNoNetWork(View retryView) {
-                if(retryView.getContext() instanceof Activity){
-                    showNoNetWorkDlg((Activity) retryView.getContext());
-                }else {
-                    //todo
-                }
-        
-            }
-        
-            protected abstract void onReallyRetry();
-        
+pageStateManager =   PageStateManager.initWhenUse(container,new MyPageConfig() {
+    @Override
+    protected void onReallyRetry() {
+        doNet();
+    }
+
+    @Override
+    public int customEmptyLayoutId() {
+        return R.layout.pager_empty_2;
+    }
+
+    @Override
+    public int customLoadingLayoutId() {
+        return R.layout.pager_loading_2;
+    }
+
+    @Override
+    public int customErrorLayoutId() {
+        return R.layout.pager_error_2;
+    }
+});
 ```
 
-## 控制页面状态
+## 控制页面状态的api:
 
 ```
 public void showLoading()
 public void showContent()
 public void showEmpty()
-public void showError()
 public void showError(CharSequence errorMsg)
 ```
 
@@ -110,7 +205,7 @@ public void showError(CharSequence errorMsg)
 
 
 
-demo中无网络时弹出dialog:
+其中无网络时弹出dialog:
 
  ![error_dialog](error_dialog.jpg)
 
@@ -135,7 +230,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ```
     dependencies {
-            compile 'com.github.hss01248:PageStateManager:2.0.1'
+            compile 'com.github.hss01248:PageStateManager:3.0.1'
     }
 ```
 
@@ -143,28 +238,46 @@ Add it in your root build.gradle at the end of repositories:
 
 ## 示例代码(详见demo)
 
+## xml里不写StatefulFramelayout时:
+
 ```
- pageStateManager = MyPageManager.init(this, new MyPageListener() {
-             @Override
-             protected void onReallyRetry() {
-                 doNet();
- 
-             }});
-        
-        
+private void initView() {
+        setContentView(R.layout.activity_main);
+        pageStateManager =   PageStateManager.initWhenUse(this,new PageConfig() {
 
+            @Override
+            public int customEmptyLayoutId() {
+                return R.layout.pager_empty_2;
+            }
 
+            @Override
+            public void onRetry(View retryView) {
+                doNet();
+            }
 
- private void doNet() {
+            @Override
+            public int customLoadingLayoutId() {
+                return R.layout.pager_loading_2;
+            }
+
+            @Override
+            public int customErrorLayoutId() {
+                return R.layout.pager_error_2;
+            }
+        });
+
+    }
+
+    private void doNet() {
         pageStateManager.showLoading();
-        
-        handler.postDelayed(new Runnable() {
+
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 int  state = new Random().nextInt(3);
                 switch (state){
                     case 0:
-                        pageStateManager.showError("哈哈哈哈哈错误了");
+                        pageStateManager.showError("稍候重试");
                         break;
                     case 1:
                         pageStateManager.showEmpty();
@@ -178,11 +291,50 @@ Add it in your root build.gradle at the end of repositories:
     }
 ```
 
+## 在xml里直接写时:
+
+```
+......
+statefulFrameLayout = (StatefulFrameLayout)findViewById(R.id.pager);
+    statefulFrameLayout.init(new PageConfig() {
+        @Override
+        public void onRetry(View retryView) {
+            doNet();
+        }
+    });
+    doNet();
+}
+
+
+
+private void doNet() {
+    statefulFrameLayout.showLoading();
+
+    new Handler().postDelayed(new Runnable() {
+        @Override
+        public void run() {
+            int  state = new Random().nextInt(3);
+            switch (state){
+                case 0:
+                    statefulFrameLayout.showError("稍候重试222222");
+                    break;
+                case 1:
+                    statefulFrameLayout.showEmpty();
+                    break;
+                case 2:
+                    statefulFrameLayout.showContent();
+            }
+
+        }
+    },2000);
+}
+```
+
 # 注意事项
 
 1.给view对象设置状态时,该对象必须有parent
 
-2.失败页面的无网络状态在包装时提供全局默认的处理措施,这样使用listener时只需要实现有网络时的处理动作.
+2.
 
 
 

@@ -21,6 +21,8 @@ public class SplashActy extends Activity {
     Button button;
     @BindView(R.id.button2)
     Button button2;
+    @BindView(R.id.button3)
+    Button button3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,7 +31,7 @@ public class SplashActy extends Activity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.button, R.id.button2})
+    @OnClick({R.id.button, R.id.button2,R.id.button3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -37,6 +39,9 @@ public class SplashActy extends Activity {
                 break;
             case R.id.button2:
                 startActivity(new Intent(this,CustomUIActy.class));
+                break;
+            case R.id.button3:
+                startActivity(new Intent(this,XmlActivity.class));
                 break;
         }
     }

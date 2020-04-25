@@ -5,14 +5,15 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.hss01248.pagestate.demo.pagemanager.MyPageListener;
-import com.hss01248.pagestate.demo.pagemanager.MyPageManager;
+import com.hss01248.pagestate.PageStateConfig;
+import com.hss01248.pagestate.PageStateManager;
+
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    MyPageManager pageStateManager;
+    PageStateManager pageStateManager;
     Handler handler = new Handler();
 
     @Override
@@ -24,11 +25,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        pageStateManager = MyPageManager.init(this, new MyPageListener() {
-            @Override
-            protected void onReallyRetry() {
-                doNet();
+        pageStateManager = PageStateManager.initWhenUse(this, new PageStateConfig() {
 
+
+            @Override
+            public String emptyMsg() {
+                return "自定义的空msg\n你可以点击重试一下";
+            }
+
+            @Override
+            public void onRetry(View retryView) {
+                doNet();
             }
 
             @Override
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         pageStateManager.showError("error occured!!!!!!!!!!!!");
                         break;
                     case 1:
-                        pageStateManager.showEmpty("没有东西,惊喜不惊喜?\n你可以点击重试一下");
+                        pageStateManager.showEmpty();
                         break;
                     case 2:
                         pageStateManager.showContent();

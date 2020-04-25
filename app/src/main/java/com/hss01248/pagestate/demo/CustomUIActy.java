@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.view.View;
 
-import com.hss01248.pagestate.demo.pagemanager.MyPageListener;
-import com.hss01248.pagestate.demo.pagemanager.MyPageManager;
+import com.hss01248.pagestate.PageStateConfig;
+import com.hss01248.pagestate.PageStateManager;
+
 
 import java.util.Random;
 
@@ -16,7 +18,7 @@ import java.util.Random;
 
 public class CustomUIActy extends Activity {
 
-    MyPageManager pageStateManager;
+    PageStateManager pageStateManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,27 +30,29 @@ public class CustomUIActy extends Activity {
 
     private void initView() {
         setContentView(R.layout.activity_main);
-        pageStateManager = MyPageManager.init(this, new MyPageListener() {
+        pageStateManager =   PageStateManager.initWhenUse(this,new PageStateConfig() {
+
             @Override
-            protected void onReallyRetry() {
+            public int customEmptyLayoutId() {
+                return R.layout.pager_empty_2;
+            }
+
+            @Override
+            public void onRetry(View retryView) {
                 doNet();
             }
 
             @Override
-            public int generateEmptyLayoutId() {
-                return R.layout.pager_empty_aku;
+            public int customLoadingLayoutId() {
+                return R.layout.pager_loading_2;
             }
 
             @Override
-            public int generateLoadingLayoutId() {
-                return R.layout.pager_loading_aku;
-            }
-
-            @Override
-            public int generateRetryLayoutId() {
-                return R.layout.pager_error_aku;
+            public int customErrorLayoutId() {
+                return R.layout.pager_error_2;
             }
         });
+
     }
 
     private void doNet() {
@@ -60,7 +64,7 @@ public class CustomUIActy extends Activity {
                 int  state = new Random().nextInt(3);
                 switch (state){
                     case 0:
-                        pageStateManager.showError();
+                        pageStateManager.showError("稍候重试");
                         break;
                     case 1:
                         pageStateManager.showEmpty();
