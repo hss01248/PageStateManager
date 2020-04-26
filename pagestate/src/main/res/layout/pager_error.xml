@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#ffffff"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" >-->
 
     <LinearLayout
-
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
@@ -20,9 +21,9 @@
 
         <TextView
             android:id="@+id/tv_msg_error"
-            android:text="来到一个没有网络的异次元"
+            android:text="@string/pagestate_error_occurs"
             android:textColor="#333333"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:gravity="center"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
@@ -39,9 +40,10 @@
             android:background="@drawable/selector_btn_bg"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:text="加载失败,点击重试"
+            android:text="@string/pagestate_click_to_retry"
             android:textColor="#ff717171"
             android:textSize="14sp" />
     </LinearLayout>
 
-</RelativeLayout>
+<!--
+</RelativeLayout>-->

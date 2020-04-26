@@ -8,4 +8,8 @@
     </string>
     <string name="pagestate_go_setting">Go Settings</string>
     <string name="pagestate_cancel">Cancel</string>
+    <string name="page_loading">loading…</string>
+    <string name="pagestate_click_to_retry">click to retry</string>
+    <string name="pagestate_error_occurs">some error occurs</string>
+    <string name="pagestate_empty_msg">opps, it seems that response is empty, go to see something else</string>
 </resources>

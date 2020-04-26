@@ -5,4 +5,8 @@
     </string>
     <string name="pagestate_go_setting">去设置页</string>
     <string name="pagestate_cancel">取消</string>
+    <string name="page_loading">加载中…</string>
+    <string name="pagestate_click_to_retry">点击重试</string>
+    <string name="pagestate_error_occurs">发生了一些错误,请稍后重试</string>
+    <string name="pagestate_empty_msg">咦…没有任何内容，先去逛逛别的吧</string>
 </resources>
