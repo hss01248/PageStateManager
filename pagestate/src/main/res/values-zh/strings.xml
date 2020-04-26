@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="pagestate_no_network_title">无网络</string>
+    <string name="pagestate_no_network_msg">打开网络连接或者wifi才能获取数据
+    </string>
+    <string name="pagestate_go_setting">去设置页</string>
+    <string name="pagestate_cancel">取消</string>
+</resources>

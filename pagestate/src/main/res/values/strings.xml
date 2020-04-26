@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">pagestate</string>
     <color name="shadow">#25808080</color>
+
+    <string name="pagestate_no_network_title">No Network Connection</string>
+    <string name="pagestate_no_network_msg">Turn on your Network Connection or use Wi-Fi to access
+        data.
+    </string>
+    <string name="pagestate_go_setting">Go Settings</string>
+    <string name="pagestate_cancel">Cancel</string>
 </resources>

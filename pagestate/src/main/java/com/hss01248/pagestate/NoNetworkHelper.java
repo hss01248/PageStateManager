@@ -15,34 +15,48 @@ import android.support.v7.app.AlertDialog;
  */
 public class NoNetworkHelper {
 
-     static void showNoNetWorkDlg(final Context activity) {
+    public static void setShowDialogImpl(IShowDialog showDialog) {
+        NoNetworkHelper.showDialog = showDialog;
+    }
+
+    static IShowDialog showDialog;
+
+    public interface IShowDialog{
+        void showNoNetWorkDlg(final Context context);
+    }
+
+
+     static void showNoNetWorkDlg(final Context context) {
+        if(showDialog != null){
+            showDialog.showNoNetWorkDlg(context);
+            return;
+        }
         AlertDialog dialog = null;
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            dialog = builder        //
-                    .setTitle("提示")            //
-                    .setMessage("当前无网络").setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            dialog = builder
+                    .setTitle(R.string.pagestate_no_network_title)
+                    .setMessage(R.string.pagestate_no_network_msg).setPositiveButton(R.string.pagestate_go_setting, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // 跳转到系统的网络设置界面
                             Intent intent = null;
                             // 先判断当前系统版本
                             if(android.os.Build.VERSION.SDK_INT > 10){  // 3.0以上
-
                                 //intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
                                 intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
                             }else{
                                 intent = new Intent();
                                 intent.setClassName("com.android.settings", "com.android.settings.WirelessSettings");
                             }
-                            activity.startActivity(intent);
+                            context.startActivity(intent);
                             dialog.dismiss();
                         }
-                    }).setNegativeButton("知道了", null).show();
+                    }).setNegativeButton(R.string.pagestate_cancel, null)
+                    .show();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return ;
 
     }
 

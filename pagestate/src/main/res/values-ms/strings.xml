@@ -1,0 +1,10 @@
+<resources>
+
+
+    <string name="pagestate_no_network_title">Tiada talian</string>
+    <string name="pagestate_no_network_msg">Hidupkan talian internet anda atau gunakan WiFi untuk
+        mengakses data.
+    </string>
+    <string name="pagestate_go_setting">Layari tetapan anda</string>
+    <string name="pagestate_cancel">Sila batal</string>
+</resources>

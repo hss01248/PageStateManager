@@ -1,0 +1,6 @@
+<resources>
+    <string name="pagestate_no_network_title">Tidak Ada Jaringan</string>
+    <string name="pagestate_no_network_msg">Nyalakan Koneksi Data Atau Sambungkan Wifi.</string>
+    <string name="pagestate_go_setting">Pengaturan</string>
+    <string name="pagestate_cancel">Batal</string>
+</resources>
