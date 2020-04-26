@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PageStateManager.iml" filepath="$PROJECT_DIR$/PageStateManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/PageStateManager-app.iml" filepath="$PROJECT_DIR$/app/PageStateManager-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pagestate/PageStateManager-pagestate.iml" filepath="$PROJECT_DIR$/pagestate/PageStateManager-pagestate.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/github-PageStateManager.iml" filepath="$PROJECT_DIR$/github-PageStateManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/pagestate/pagestate.iml" filepath="$PROJECT_DIR$/pagestate/pagestate.iml" />
     </modules>
   </component>
