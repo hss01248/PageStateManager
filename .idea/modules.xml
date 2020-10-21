@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PageStateManager.iml" filepath="$PROJECT_DIR$/PageStateManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pagestate/pagestate.iml" filepath="$PROJECT_DIR$/pagestate/pagestate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/PageStateManager.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/PageStateManager.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pagestate/PageStateManager.pagestate.iml" filepath="$PROJECT_DIR$/.idea/modules/pagestate/PageStateManager.pagestate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/github.PageStateManager.iml" filepath="$PROJECT_DIR$/.idea/modules/github.PageStateManager.iml" />
     </modules>
   </component>
 </project>
