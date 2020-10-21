@@ -21,7 +21,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'androidx.appcompat:appcompat:1.1.0'
+    compile 'com.android.support:appcompat-v7:28.0.0'
     compile project(path: ':pagestate')
     compile 'com.nineoldandroids:library:2.4.0'
     //compile 'com.jakewharton:butterknife:10.2.1'

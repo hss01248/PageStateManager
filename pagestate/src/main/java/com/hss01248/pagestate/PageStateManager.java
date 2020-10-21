@@ -1,10 +1,12 @@
 package com.hss01248.pagestate;
 
-import android.app.Activity;
 import android.content.Context;
-import androidx.fragment.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+
+
 
 
 /**
@@ -36,8 +38,8 @@ public class PageStateManager implements IViewState{
     private PageStateManager(Object activityOrView, PageStateConfig listener) {
         ViewGroup contentParent = null;
         Context context;
-        if (activityOrView instanceof Activity) {
-            Activity activity = (Activity) activityOrView;
+        if (activityOrView instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) activityOrView;
             context = activity;
             contentParent = (ViewGroup) activity.findViewById(android.R.id.content);
         } else if (activityOrView instanceof Fragment) {

@@ -5,7 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import androidx.appcompat.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
+
 
 /**
  * time:2020/4/25

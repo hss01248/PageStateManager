@@ -1,11 +1,11 @@
 package com.hss01248.pagestate.demo;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+
 
 
 
@@ -13,7 +13,7 @@ import android.widget.Button;
  * Created by huangshuisheng on 2017/10/16.
  */
 
-public class SplashActy extends Activity implements View.OnClickListener {
+public class SplashActy extends AppCompatActivity implements View.OnClickListener {
 
 
 

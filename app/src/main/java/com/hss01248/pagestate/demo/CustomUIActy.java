@@ -1,14 +1,15 @@
 package com.hss01248.pagestate.demo;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+
 
 import com.hss01248.pagestate.PageStateConfig;
 import com.hss01248.pagestate.PageStateManager;
-
 
 import java.util.Random;
 
@@ -16,7 +17,7 @@ import java.util.Random;
  * Created by huangshuisheng on 2017/10/16.
  */
 
-public class CustomUIActy extends Activity {
+public class CustomUIActy extends AppCompatActivity {
 
     PageStateManager pageStateManager;
 

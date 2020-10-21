@@ -2,7 +2,8 @@ package com.hss01248.pagestate.demo;
 
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
+
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hss01248.pagestate.PageStateConfig;
