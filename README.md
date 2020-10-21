@@ -209,6 +209,18 @@ public void showError(CharSequence errorMsg)
 
  ![error_dialog](error_dialog.jpg)
 
+无网络的对话框可以全局复写:
+
+```
+NoNetworkHelper.setShowDialogImpl(IShowDialog showDialog)
+
+public interface IShowDialog{
+        void showNoNetWorkDlg(final Context context);
+    }
+    
+
+```
+
 # 使用
 
 ## gradle

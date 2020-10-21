@@ -16,13 +16,14 @@
         />
 
     <TextView
-        android:text="加载中..."
+        android:text="@string/page_loading"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/progressbar"
         android:textSize="16sp"
+        android:gravity="center"
         android:textColor="#333333"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 

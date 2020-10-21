@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="pagestate_no_network_title">Không Kết nối mạng</string>
+    <string name="pagestate_no_network_msg">Bật Kết nối mạng hoặc dùng Wi-Fi để lấy dữ liệu.</string>
+    <string name="pagestate_go_setting">Vào Cài đặt</string>
+    <string name="pagestate_cancel">Hủy</string>
+</resources>
