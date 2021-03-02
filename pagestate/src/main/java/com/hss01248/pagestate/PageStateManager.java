@@ -137,6 +137,11 @@ public class PageStateManager implements IViewState{
     }
 
     @Override
+    public void showLoading(int progress) {
+        mLoadingAndRetryLayout.showLoading();
+    }
+
+    @Override
     public void showError(CharSequence msg) {
         mLoadingAndRetryLayout.showError(msg);
     }

@@ -8,6 +8,9 @@ package com.hss01248.pagestate;
 public interface IViewState {
 
      void showLoading();
+     default void showLoading(int progress){
+          showLoading();
+     }
      void showError(CharSequence msg);
      void showContent();
      void showEmpty();

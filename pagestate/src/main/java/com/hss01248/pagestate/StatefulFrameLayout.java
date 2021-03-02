@@ -59,7 +59,6 @@ public class StatefulFrameLayout extends FrameLayout implements IViewState {
         }
         //xml里的布局是在这个layout初始化完成后才加入的
         manager = new PageStateManager(context);
-
     }
 
     @Override
@@ -79,6 +78,22 @@ public class StatefulFrameLayout extends FrameLayout implements IViewState {
     public void showLoading() {
         if (isMainThread()) {
             showView(mLoadingView, STATUS_LOADING);
+        } else {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    showView(mLoadingView,STATUS_LOADING);
+                }
+            });
+        }
+    }
+
+    TextView tvLoading;
+    @Override
+    public void showLoading(int progress) {
+        if (isMainThread()) {
+            showView(mLoadingView, STATUS_LOADING);
+
         } else {
             post(new Runnable() {
                 @Override
