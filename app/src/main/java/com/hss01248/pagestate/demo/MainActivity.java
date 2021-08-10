@@ -44,7 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
                 doNet();
             }
+
+            @Override
+            public boolean isFirstStateLoading() {
+                return false;
+            }
         });
+        doNet();
 
     }
 
@@ -52,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        doNet();
+       // doNet();
 
 
 
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doNet() {
-        pageStateManager.showLoading();
+        pageStateManager.showLoading(50);
 
         handler.postDelayed(new Runnable() {
             @Override

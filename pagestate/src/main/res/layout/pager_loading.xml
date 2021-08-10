@@ -16,8 +16,9 @@
         />
 
     <TextView
+        android:id="@+id/tv_msg_loading"
         android:text="@string/page_loading"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="6dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/progressbar"
         android:textSize="16sp"

@@ -30,6 +30,10 @@ public abstract class PageStateConfig {
         return PageStateManager.BASE_EMPTY_LAYOUT_ID;
     }
 
+    public boolean showProgress(View emptyView,int progress){
+        return false;
+    }
+
 
 
 

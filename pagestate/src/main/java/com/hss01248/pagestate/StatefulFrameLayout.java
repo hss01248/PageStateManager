@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -88,20 +89,50 @@ public class StatefulFrameLayout extends FrameLayout implements IViewState {
         }
     }
 
-    TextView tvLoading;
     @Override
     public void showLoading(int progress) {
         if (isMainThread()) {
             showView(mLoadingView, STATUS_LOADING);
+            showProgress(mLoadingView,progress);
 
         } else {
             post(new Runnable() {
                 @Override
                 public void run() {
                     showView(mLoadingView,STATUS_LOADING);
+                    showProgress(mLoadingView,progress);
                 }
             });
         }
+    }
+    TextView tvLoading;
+    private void showProgress(View mLoadingView, int progress) {
+        try {
+            if(manager == null || manager.pageListener == null){
+                showP(mLoadingView,progress+"%");
+                return;
+            }
+            if(!manager.pageListener.showProgress(mEmptyView,progress)){
+                showP(mLoadingView,progress+"%");
+            }
+        }catch (Throwable throwable){
+            throwable.printStackTrace();
+        }
+
+
+    }
+
+    private void showP(View mLoadingView, String str) {
+        if(tvLoading != null){
+            tvLoading.setText(str);
+            return;
+        }
+        View tv = mLoadingView.findViewById(R.id.tv_msg_loading);
+        if(tv instanceof TextView){
+           tvLoading = (TextView) tv;
+            tvLoading.setText(str);
+        }
+
     }
 
     /**
