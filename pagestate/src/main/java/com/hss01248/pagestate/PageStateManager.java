@@ -16,6 +16,12 @@ public class PageStateManager implements IViewState{
      static int BASE_RETRY_LAYOUT_ID = R.layout.pager_error;
      static int BASE_EMPTY_LAYOUT_ID = R.layout.pager_empty;
 
+    public static void setGlobalDarkMode(boolean isDarkMode) {
+        PageStateManager.isDarkMode = isDarkMode;
+    }
+
+    static boolean isDarkMode = false;
+
     public StatefulFrameLayout getStatefulLayout() {
         return mLoadingAndRetryLayout;
     }
