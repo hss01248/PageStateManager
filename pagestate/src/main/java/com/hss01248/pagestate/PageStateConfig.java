@@ -18,6 +18,10 @@ public abstract class PageStateConfig {
         return "";
     }
 
+    public boolean darkMode(){
+        return PageStateManager.isDarkMode;
+    }
+
     public int customLoadingLayoutId() {
         return PageStateManager.BASE_LOADING_LAYOUT_ID;
     }

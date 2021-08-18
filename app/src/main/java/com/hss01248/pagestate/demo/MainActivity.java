@@ -46,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            public boolean darkMode() {
+                return true;
+            }
+
+            @Override
             public boolean isFirstStateLoading() {
                 return false;
             }

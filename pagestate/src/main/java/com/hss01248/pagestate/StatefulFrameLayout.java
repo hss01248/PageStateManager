@@ -1,6 +1,8 @@
 package com.hss01248.pagestate;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -227,6 +230,7 @@ public class StatefulFrameLayout extends FrameLayout implements IViewState {
 
             }
         }
+
         if(contentViews.isEmpty()){
            findContentViews();
         }
@@ -264,7 +268,42 @@ public class StatefulFrameLayout extends FrameLayout implements IViewState {
             hideContentView();
         }
 
+        setDarkMode(view);
 
+
+
+    }
+
+    private void setDarkMode(View view) {
+        if(view == null){
+            Log.w("setDarkMode","view is null!!!");
+            return;
+        }
+        if(manager != null && manager.pageListener != null){
+            if(manager.pageListener.darkMode()){
+                view.setBackgroundColor(Color.BLACK);
+                findChildTextviewAndSetWhite(view);
+            }
+        }
+    }
+
+    private void findChildTextviewAndSetWhite(View view) {
+        if(view instanceof ViewGroup){
+            ViewGroup viewGroup = (ViewGroup) view;
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
+                findChildTextviewAndSetWhite(child);
+            }
+        }else if(view instanceof TextView ){
+            TextView textView = (TextView) view;
+            textView.setTextColor(Color.WHITE);
+            Drawable background = textView.getBackground();
+            //Log.w("setDarkMode","background "+background);
+            if(background != null){
+                textView.setBackgroundColor(Color.parseColor("#333333"));
+            }
+        }
     }
 
     private void hideContentView() {
